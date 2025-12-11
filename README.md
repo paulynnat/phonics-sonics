@@ -1,4 +1,4 @@
-﻿# Phonics Sonics — New Clean Repo
+﻿# Phonics Sonics
 
 This repo contains a minimal, kid-friendly one-page phonics site (JPG images + WAV/MP3 audio).
 Place your images at assets/images/letters/a.jpg ... and audio at assets/audio/a.wav (or .mp3).
