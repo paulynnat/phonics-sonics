@@ -1,0 +1,7 @@
+﻿node_modules/
+.vscode/
+.DS_Store
+local_backups/
+*.bak
+page_*
+raw_*

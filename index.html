@@ -1,0 +1,43 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Phonics Sonics — Learn Letters</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/images/letters/a.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrap">
+        <div class="logo-badge" aria-hidden="true">PS</div>
+        <div>
+          <h1 class="brand">Phonics Sonics</h1>
+          <div class="subtitle">Big pictures — Big buttons — Fun sounds</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="controls-row">
+      <label for="search" class="sr-only">Search letters</label>
+      <input id="search" type="search" placeholder="Find a letter (optional)" aria-label="Search letters" />
+    </div>
+
+    <section id="letters" class="letters-grid" role="list" aria-live="polite"></section>
+
+    <audio id="shared-audio" preload="none"></audio>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="muted">Designed for early learners — tap or press Enter/Space</p>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
