@@ -2,6 +2,7 @@
    - Optional manifest at assets/images/letters/manifest.json (keys a..z -> filename.jpg).
    - Fallback: assets/images/letters/{id}.jpg
    - Audio: assets/audio/{id}.wav then .mp3
+   - Updated: small audio retry (1 retry with short backoff).
 */
 
 const lettersData = [
@@ -57,35 +58,54 @@ let imageManifest = {};
   }
 })();
 
-// Try audio candidates: base.wav then base.mp3. Returns absolute URL or throws.
+// Try audio candidates: base.wav then base.mp3.
+// Implements one retry attempt with short backoff to avoid transient timeouts.
+// Returns absolute URL or null.
 async function tryAudio(base) {
-  const candidates = [];
-  if (/\.(wav|mp3)$/i.test(base)) candidates.push(new URL(base, location.href).href);
-  else { candidates.push(new URL(base + '.wav', location.href).href); candidates.push(new URL(base + '.mp3', location.href).href); }
+  const attempts = 2; // initial attempt + one retry
+  const backoffMs = 200;
+  const makeCandidates = (b) => {
+    const list = [];
+    if (/\.(wav|mp3)$/i.test(b)) list.push(new URL(b, location.href).href);
+    else { list.push(new URL(b + '.wav', location.href).href); list.push(new URL(b + '.mp3', location.href).href); }
+    return list;
+  };
 
-  for (const url of candidates) {
-    try {
-      audioEl.src = url;
-      // wait briefly for canplaythrough or error
-      await new Promise((resolve, reject) => {
-        function onCan() { cleanup(); resolve(true); }
-        function onErr() { cleanup(); reject(new Error('error')); }
-        function cleanup() { audioEl.removeEventListener('canplaythrough', onCan); audioEl.removeEventListener('error', onErr); }
-        audioEl.addEventListener('canplaythrough', onCan);
-        audioEl.addEventListener('error', onErr);
-        setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 1200);
-      });
-      return url;
-    } catch (e) {
-      // candidate failed, try next
-      console.debug('Audio candidate failed:', url, e && e.message);
+  const candidates = makeCandidates(base);
+
+  for (let attempt = 0; attempt < attempts; attempt++) {
+    for (const url of candidates) {
+      try {
+        audioEl.src = url;
+        // wait briefly for canplaythrough or error
+        await new Promise((resolve, reject) => {
+          function onCan() { cleanup(); resolve(true); }
+          function onErr() { cleanup(); reject(new Error('error')); }
+          function cleanup() {
+            audioEl.removeEventListener('canplaythrough', onCan);
+            audioEl.removeEventListener('error', onErr);
+          }
+          audioEl.addEventListener('canplaythrough', onCan);
+          audioEl.addEventListener('error', onErr);
+          setTimeout(() => { cleanup(); reject(new Error('timeout')); }, 1200);
+        });
+        return url;
+      } catch (e) {
+        console.debug('Audio candidate failed:', url, e && e.message);
+        // try next candidate
+      }
+    }
+    // if not found and we'll retry, wait before next attempt
+    if (attempt < attempts - 1) {
+      await new Promise(r => setTimeout(r, backoffMs));
     }
   }
-  throw new Error('No audio for ' + base);
+  return null; // no audio found after retries
 }
 
 function createCard(item) {
   const id = String(item.id).toLowerCase();
+
   const card = document.createElement('article');
   card.className = 'letter-card';
   card.setAttribute('role','listitem');
@@ -98,30 +118,23 @@ function createCard(item) {
   const top = document.createElement('div');
   top.className = 'card-top';
 
-  const art = document.createElement('div');
-  art.className = 'letter-art';
+  // LEFT: letter + word (side-by-side) and play underneath
+  const left = document.createElement('div');
+  left.className = 'left-col';
 
-  const star = document.createElement('div');
-  star.className = 'corner-star';
-  card.appendChild(star);
-
-  const imgFile = imageManifest[id] || `${id}.jpg`;
-  if (imgFile) {
-    const img = document.createElement('img');
-    img.className = 'letter-image';
-    img.src = new URL('assets/images/letters/' + imgFile, location.href).href;
-    img.alt = item.example || item.letter;
-    img.loading = 'lazy';
-    img.onerror = () => { img.remove(); };
-    art.appendChild(img);
-  }
+  const leftTop = document.createElement('div');
+  leftTop.className = 'left-top';
 
   const letterEl = document.createElement('div');
   letterEl.className = 'letter-char';
   letterEl.textContent = item.letter;
-  art.appendChild(letterEl);
 
-  top.appendChild(art);
+  const example = document.createElement('div');
+  example.className = 'example';
+  example.textContent = item.example;
+
+  leftTop.appendChild(letterEl);
+  leftTop.appendChild(example);
 
   const playWrap = document.createElement('div');
   playWrap.className = 'play-wrap';
@@ -132,24 +145,40 @@ function createCard(item) {
   btn.setAttribute('aria-label', `Play ${item.letter}`);
   btn.dataset.id = id;
   btn.textContent = '▶';
-  playWrap.appendChild(btn);
 
   const label = document.createElement('div');
   label.className = 'btn-label';
   label.setAttribute('aria-hidden','true');
   label.textContent = '';
+
+  playWrap.appendChild(btn);
   playWrap.appendChild(label);
 
-  top.appendChild(playWrap);
+  left.appendChild(leftTop);
+  left.appendChild(playWrap);
 
-  const example = document.createElement('div');
-  example.className = 'example';
-  example.textContent = item.example;
+  // RIGHT: image
+  const imageCol = document.createElement('div');
+  imageCol.className = 'image-col';
+
+  const imgFile = imageManifest[id] || `${id}.jpg`;
+  if (imgFile) {
+    const img = document.createElement('img');
+    img.className = 'letter-image';
+    img.src = new URL('assets/images/letters/' + imgFile, location.href).href;
+    img.alt = item.example || item.letter;
+    img.loading = 'lazy';
+    img.onerror = () => { img.remove(); };
+    imageCol.appendChild(img);
+  }
+
+  top.appendChild(left);
+  top.appendChild(imageCol);
 
   inner.appendChild(top);
-  inner.appendChild(example);
   card.appendChild(inner);
 
+  // events
   btn.addEventListener('click', () => handlePlay(item, btn, label));
   card.addEventListener('keydown', (ev) => {
     if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); btn.click(); }
@@ -176,22 +205,22 @@ async function handlePlay(item, btn, label) {
   if (!btn || btn.disabled) return;
   btn.disabled = true;
   label.textContent = 'Loading…';
-  try {
-    await tryAudio(item.audio);
-    try {
-      await audioEl.play();
-      label.textContent = 'Playing';
-      btn.classList.add('playing');
-      audioEl.onended = () => { btn.disabled = false; label.textContent = ''; btn.classList.remove('playing'); };
-    } catch (playErr) {
-      console.warn('Play failed', playErr);
-      label.textContent = 'Play failed';
-      btn.disabled = false;
-      setTimeout(() => label.textContent = '', 1200);
-    }
-  } catch (err) {
-    console.warn('No audio', err);
+  const src = await tryAudio(item.audio);
+  if (!src) {
     label.textContent = 'No audio';
+    btn.disabled = false;
+    setTimeout(() => { if (!btn.classList.contains('playing')) label.textContent = ''; }, 1200);
+    return;
+  }
+
+  try {
+    await audioEl.play();
+    label.textContent = 'Playing';
+    btn.classList.add('playing');
+    audioEl.onended = () => { btn.disabled = false; label.textContent = ''; btn.classList.remove('playing'); };
+  } catch (playErr) {
+    console.warn('Play failed', playErr);
+    label.textContent = 'Play failed';
     btn.disabled = false;
     setTimeout(() => label.textContent = '', 1200);
   }
