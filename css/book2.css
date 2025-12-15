@@ -1,31 +1,5 @@
 /* Book 2: Word Families - Additional Styles */
 
-/* Navigation links */
-.nav-links {
-  margin-left: auto;
-}
-
-.nav-link {
-  display: inline-block;
-  padding: 8px 16px;
-  background: var(--violet);
-  color: white;
-  text-decoration: none;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 600;
-  transition: transform 0.2s ease, background 0.2s ease;
-}
-
-.nav-link:hover {
-  background: #5a4ce6;
-  transform: translateY(-1px);
-}
-
-.nav-link:active {
-  transform: translateY(0);
-}
-
 /* Intro section */
 .intro-section {
   text-align: center;
@@ -257,11 +231,6 @@
 
   .modal-title {
     font-size: 24px;
-  }
-
-  .nav-link {
-    font-size: 12px;
-    padding: 6px 12px;
   }
 }
 
