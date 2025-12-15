@@ -1,5 +1,8 @@
 /* Book 2: Word Families - Interactive functionality */
 
+// Configuration
+const MAX_EXAMPLES_DISPLAY = 3;
+
 // Word families data with common phonics patterns
 const wordFamiliesData = [
   { id: "at", family: "-at", examples: "cat, hat, mat, bat, rat, sat" },
@@ -55,7 +58,7 @@ function createFamilyCard(item) {
 
   const familyExample = document.createElement('div');
   familyExample.className = 'family-example';
-  familyExample.textContent = item.examples.split(',').slice(0, 3).join(', ').trim();
+  familyExample.textContent = item.examples.split(',').slice(0, MAX_EXAMPLES_DISPLAY).join(', ').trim();
 
   const badge = document.createElement('div');
   badge.className = 'family-badge';
@@ -106,8 +109,6 @@ function handleFamilyClick(item, card) {
   // Placeholder for future modal functionality
   // Uncomment the following line when ready to implement modals:
   // openModal(item);
-  
-  console.log(`Word family clicked: ${item.family}`, item);
 }
 
 /**
