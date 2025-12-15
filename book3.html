@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Phonics Sonics — Digraphs</title>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="icon" href="assets/images/letters/a.jpg" type="image/jpeg">
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/book3.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand-wrap">
+        <div class="logo-badge" aria-hidden="true">PS</div>
+        <div>
+          <h1 class="brand">Phonics Sonics — Book 3</h1>
+          <div class="subtitle">Digraphs — Two letters, one sound</div>
+        </div>
+      </div>
+      <nav class="nav-links">
+        <a href="book2.html" class="nav-link">← Book 2</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Homepage Banner Section -->
+    <section class="banner-section">
+      <div class="banner-content">
+        <h2 class="banner-title">Welcome to Digraphs!</h2>
+        <p class="banner-text">
+          Learn special letter pairs that work together to make one sound. 
+          Discover how <strong>ch</strong>, <strong>sh</strong>, <strong>th</strong>, and more create amazing sounds!
+        </p>
+        <!-- Placeholder for future banner image/illustration -->
+        <div class="banner-image-placeholder" aria-hidden="true">
+          <span class="placeholder-icon">🔤</span>
+          <span class="placeholder-text">Banner image coming soon</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Digraph Introduction -->
+    <section class="intro-section">
+      <h2>What are Digraphs?</h2>
+      <p class="intro-text">
+        Digraphs are two letters that come together to make one sound. 
+        Click on each digraph below to explore and play the Digraph Detective game!
+      </p>
+    </section>
+
+    <!-- Digraph Cards Grid -->
+    <section id="digraphs-grid" class="digraphs-grid" role="list" aria-live="polite"></section>
+
+    <!-- Digraph Detective Game Modal -->
+    <div id="game-modal" class="modal" role="dialog" aria-hidden="true" aria-labelledby="game-modal-title">
+      <div class="modal-content game-modal-content">
+        <button class="modal-close" aria-label="Close game">×</button>
+        <h3 id="game-modal-title" class="modal-title">Digraph Detective</h3>
+        <div id="game-body" class="game-body">
+          <!-- Game UI will be dynamically inserted here -->
+          <div class="game-placeholder">
+            <p class="game-intro-text">Find words that contain the digraph!</p>
+            <!-- Placeholder for game images and interactive elements -->
+            <div class="game-images-grid">
+              <div class="game-image-placeholder">
+                <span class="placeholder-text">Image 1</span>
+                <!-- Future: Replace with actual images -->
+              </div>
+              <div class="game-image-placeholder">
+                <span class="placeholder-text">Image 2</span>
+              </div>
+              <div class="game-image-placeholder">
+                <span class="placeholder-text">Image 3</span>
+              </div>
+              <div class="game-image-placeholder">
+                <span class="placeholder-text">Image 4</span>
+              </div>
+            </div>
+            <div class="game-controls">
+              <button class="game-btn" aria-label="Check answer">Check Answer</button>
+              <button class="game-btn game-btn-secondary" aria-label="Next question">Next</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quiz Section -->
+    <section class="quiz-section" id="quiz-section">
+      <div class="quiz-header">
+        <h2 class="section-title">Digraph Quiz</h2>
+        <p class="section-subtitle">Test your knowledge of digraphs!</p>
+      </div>
+
+      <!-- Progress Tracking Container -->
+      <div class="progress-container">
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 0%"></div>
+        </div>
+        <div class="progress-text">Question <span id="current-question">0</span> of <span id="total-questions">10</span></div>
+      </div>
+
+      <!-- Quiz Questions Container -->
+      <div class="quiz-questions-container">
+        <div class="quiz-question" id="quiz-question">
+          <h3 class="question-text">Which word contains the 'ch' sound?</h3>
+          
+          <!-- Multiple Choice Options -->
+          <div class="quiz-options">
+            <button class="quiz-option" data-option="a">
+              <span class="option-letter">A</span>
+              <span class="option-text">chair</span>
+              <!-- Placeholder for option image -->
+              <span class="option-image-placeholder">🪑</span>
+            </button>
+            <button class="quiz-option" data-option="b">
+              <span class="option-letter">B</span>
+              <span class="option-text">table</span>
+              <span class="option-image-placeholder">🗄️</span>
+            </button>
+            <button class="quiz-option" data-option="c">
+              <span class="option-letter">C</span>
+              <span class="option-text">door</span>
+              <span class="option-image-placeholder">🚪</span>
+            </button>
+            <button class="quiz-option" data-option="d">
+              <span class="option-letter">D</span>
+              <span class="option-text">window</span>
+              <span class="option-image-placeholder">🪟</span>
+            </button>
+          </div>
+
+          <!-- Quiz Controls -->
+          <div class="quiz-controls">
+            <button class="quiz-btn quiz-btn-submit" id="submit-answer">Submit Answer</button>
+            <button class="quiz-btn quiz-btn-next" id="next-question" style="display: none;">Next Question</button>
+          </div>
+
+          <!-- Feedback Container -->
+          <div class="quiz-feedback" id="quiz-feedback" style="display: none;">
+            <p class="feedback-text"></p>
+          </div>
+        </div>
+
+        <!-- Quiz Results Container (shown at the end) -->
+        <div class="quiz-results" id="quiz-results" style="display: none;">
+          <h3 class="results-title">Quiz Complete! 🎉</h3>
+          <div class="results-stats">
+            <div class="stat-item">
+              <span class="stat-number" id="score">0</span>
+              <span class="stat-label">Correct</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="total">10</span>
+              <span class="stat-label">Total</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number" id="percentage">0%</span>
+              <span class="stat-label">Score</span>
+            </div>
+          </div>
+          <div class="results-actions">
+            <button class="quiz-btn" id="retry-quiz">Try Again</button>
+            <button class="quiz-btn quiz-btn-secondary" id="back-to-home">Back to Digraphs</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <p class="muted">Learn digraphs through interactive games and quizzes — tap to explore</p>
+    </div>
+  </footer>
+
+  <script src="book3.js"></script>
+</body>
+</html>
