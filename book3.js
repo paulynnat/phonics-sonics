@@ -118,7 +118,7 @@ function createDigraphCard(item) {
   playBtn.innerHTML = '▶';
   playBtn.addEventListener('click', (e) => {
     e.stopPropagation();
-    playDigraphSound(item);
+    playDigraphSound(item, playBtn);
   });
 
   const badge = document.createElement('div');
@@ -177,15 +177,15 @@ function handleDigraphClick(item, card) {
  * Placeholder function for playing digraph sound
  * Future: Implement actual audio playback
  * @param {Object} item - Digraph data object
+ * @param {HTMLElement} btn - The button element that was clicked
  */
-function playDigraphSound(item) {
+function playDigraphSound(item, btn) {
   console.log(`Playing sound for digraph: ${item.digraph}`);
   // Future implementation:
   // const audio = new Audio(`assets/audio/digraphs/${item.id}.mp3`);
   // audio.play();
   
   // Visual feedback
-  const btn = event.target;
   btn.classList.add('playing');
   setTimeout(() => {
     btn.classList.remove('playing');
@@ -381,7 +381,13 @@ function initializeQuiz() {
     submitAnswerBtn.addEventListener('click', () => {
       const selectedOption = document.querySelector('.quiz-option.selected');
       if (!selectedOption) {
-        alert('Please select an answer!');
+        // Show inline error message instead of alert
+        if (quizFeedback) {
+          quizFeedback.style.display = 'block';
+          quizFeedback.className = 'quiz-feedback incorrect-feedback';
+          quizFeedback.querySelector('.feedback-text').textContent = 
+            'Please select an answer first!';
+        }
         return;
       }
       
@@ -429,7 +435,35 @@ function initializeQuiz() {
   // Retry quiz handler
   if (retryQuizBtn) {
     retryQuizBtn.addEventListener('click', () => {
-      location.reload(); // Simple reset for now
+      // Reset quiz state without full page reload
+      if (quizResults) quizResults.style.display = 'none';
+      if (quizQuestion) quizQuestion.style.display = 'block';
+      
+      // Reset quiz options
+      const quizOptions = document.querySelectorAll('.quiz-option');
+      quizOptions.forEach(opt => {
+        opt.classList.remove('selected', 'correct', 'incorrect');
+      });
+      
+      // Reset feedback
+      if (quizFeedback) {
+        quizFeedback.style.display = 'none';
+        quizFeedback.className = 'quiz-feedback';
+      }
+      
+      // Show submit button, hide next button
+      if (submitAnswerBtn) submitAnswerBtn.style.display = 'block';
+      if (nextQuestionBtn) nextQuestionBtn.style.display = 'none';
+      
+      // Reset progress
+      score = 0;
+      currentQuestion = 0;
+      if (document.getElementById('current-question')) {
+        document.getElementById('current-question').textContent = currentQuestion;
+      }
+      
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     });
   }
   
