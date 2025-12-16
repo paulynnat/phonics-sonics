@@ -87,24 +87,3 @@ body{margin:0;background:var(--bg);color:var(--navy)}
   .nav-link{font-size:12px;padding:6px 12px}
   .header-inner{flex-wrap:wrap}
 }
-
-/* Resize dynamically generated images in #letters grid */
-#letters img {
-  width: 200px; /* Adjust the width as needed */
-  height: auto; /* Maintain aspect ratio */
-  border-radius: var(--radius); /* Use the same border radius for consistency */
-  box-shadow: var(--shadow); /* Add a shadow for better visibility */
-}
-
-/* Ensure responsiveness */
-@media (max-width: 768px) { 
-  #letters img {
-    width: 150px; /* Smaller size for tablets */
-  }
-}
-
-@media (max-width: 480px) { 
-  #letters img {
-    width: 120px; /* Smaller size for mobile */
-  }
-}
