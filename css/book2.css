@@ -126,12 +126,6 @@
   animation: play-pulse 1200ms infinite;
 }
 
-@keyframes play-pulse {
-  0% { box-shadow: 0 8px 20px rgba(255, 111, 97, 0.3); }
-  50% { box-shadow: 0 12px 28px rgba(255, 111, 97, 0.4); transform: scale(1.05); }
-  100% { box-shadow: 0 8px 20px rgba(255, 111, 97, 0.3); transform: scale(1); }
-}
-
 .family-card .btn-label {
   font-size: 11px;
   color: var(--muted);
