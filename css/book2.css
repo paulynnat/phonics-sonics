@@ -89,6 +89,58 @@
   color: var(--muted);
   text-align: center;
   line-height: 1.4;
+  margin-bottom: 12px;
+}
+
+/* Play button (matching Book 1 style) */
+.family-card .play-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.family-card .play-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(180deg, var(--coral), #ff4d47);
+  color: #fff;
+  font-size: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 111, 97, 0.3);
+  transition: transform 0.14s ease;
+  padding-left: 2px;
+}
+
+.family-card .play-btn:hover {
+  transform: scale(1.05);
+}
+
+.family-card .play-btn.playing {
+  animation: play-pulse 1200ms infinite;
+}
+
+@keyframes play-pulse {
+  0% { box-shadow: 0 8px 20px rgba(255, 111, 97, 0.3); }
+  50% { box-shadow: 0 12px 28px rgba(255, 111, 97, 0.4); transform: scale(1.05); }
+  100% { box-shadow: 0 8px 20px rgba(255, 111, 97, 0.3); transform: scale(1); }
+}
+
+.family-card .btn-label {
+  font-size: 11px;
+  color: var(--muted);
+  min-height: 14px;
+  text-align: center;
+}
+
+.family-card .play-btn:focus {
+  outline: 4px solid rgba(0, 180, 199, 0.12);
 }
 
 .family-badge {
@@ -210,7 +262,7 @@
 
   .family-card {
     padding: 20px 12px;
-    min-height: 100px;
+    min-height: 120px;
   }
 
   .family-name {
@@ -219,6 +271,12 @@
 
   .family-example {
     font-size: 12px;
+  }
+
+  .family-card .play-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
   }
 
   .intro-section h2 {
