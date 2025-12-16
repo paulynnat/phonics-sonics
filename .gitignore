@@ -5,3 +5,13 @@ local_backups/
 *.bak
 page_*
 raw_*
+
+# Placeholder audio files (users should add their own)
+assets/audio/book2/*.wav
+assets/audio/book2/*.mp3
+assets/audio/book3/*.wav
+assets/audio/book3/*.mp3
+
+# Keep the README files
+!assets/audio/book2/README.md
+!assets/audio/book3/README.md

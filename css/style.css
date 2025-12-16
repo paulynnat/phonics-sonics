@@ -61,7 +61,7 @@ body{margin:0;background:var(--bg);color:var(--navy)}
 .play-wrap{margin-left:auto;display:flex;flex-direction:column;align-items:center;gap:8px}
 .play-btn{width:64px;height:64px;border-radius:50%;border:none;background:linear-gradient(180deg,var(--coral),#ff4d47);color:#fff;font-size:22px;display:inline-flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 26px rgba(107,92,255,0.12);transition:transform .14s ease}
 .play-btn.playing{animation:play-pulse 1200ms infinite}
-@keyframes play-pulse{0%{box-shadow:0 10px 26px rgba(255,111,97,0.18)}50%{box-shadow:0 16px 36px rgba(255,111,97,0.22);transform:scale(1.03)}100%{box-shadow:0 10px 26px rgba(255,111,97,0.18);transform:scale(1)}}
+@keyframes play-pulse{0%{box-shadow:0 8px 20px rgba(255,111,97,0.3)}50%{box-shadow:0 14px 30px rgba(255,111,97,0.4);transform:scale(1.04)}100%{box-shadow:0 8px 20px rgba(255,111,97,0.3);transform:scale(1)}}
 .btn-label{font-size:12px;color:var(--muted);min-height:16px;text-align:center}
 
 /* decorative corner star */

@@ -183,38 +183,52 @@
   color: var(--muted);
   text-align: center;
   line-height: 1.5;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
-.digraph-play-btn {
-  width: 40px;
-  height: 40px;
+/* Play button (matching Book 1 style) */
+.digraph-card .play-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  margin-top: 8px;
+}
+
+.digraph-card .play-btn {
+  width: 48px;
+  height: 48px;
   border-radius: 50%;
   border: none;
-  background: linear-gradient(180deg, var(--teal), #00a3ad);
+  background: linear-gradient(180deg, var(--coral), #ff4d47);
   color: #fff;
-  font-size: 16px;
-  cursor: pointer;
-  box-shadow: 0 4px 12px rgba(0, 180, 199, 0.3);
-  transition: transform 0.2s ease;
-  display: flex;
+  font-size: 18px;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding-left: 2px; /* Adjust play icon centering */
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(255, 111, 97, 0.3);
+  transition: transform 0.14s ease;
+  padding-left: 2px;
 }
 
-.digraph-play-btn:hover {
-  transform: scale(1.1);
+.digraph-card .play-btn:hover {
+  transform: scale(1.05);
 }
 
-.digraph-play-btn:active,
-.digraph-play-btn.playing {
-  animation: btn-pulse 0.5s ease;
+.digraph-card .play-btn.playing {
+  animation: play-pulse 1200ms infinite;
 }
 
-@keyframes btn-pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+.digraph-card .btn-label {
+  font-size: 11px;
+  color: var(--muted);
+  min-height: 14px;
+  text-align: center;
+}
+
+.digraph-card .play-btn:focus {
+  outline: 4px solid rgba(0, 180, 199, 0.12);
 }
 
 .digraph-badge {
@@ -765,7 +779,7 @@
 
   .digraph-card {
     padding: 20px 12px;
-    min-height: 120px;
+    min-height: 140px;
   }
 
   .digraph-name {
@@ -774,6 +788,12 @@
 
   .digraph-examples {
     font-size: 12px;
+  }
+
+  .digraph-card .play-btn {
+    width: 44px;
+    height: 44px;
+    font-size: 16px;
   }
 
   .game-images-grid {
