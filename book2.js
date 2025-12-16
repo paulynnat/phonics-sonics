@@ -60,12 +60,13 @@ function createFamilyCard(item) {
   familyExample.className = 'family-example';
   familyExample.textContent = item.examples.split(',').slice(0, MAX_EXAMPLES_DISPLAY).join(', ').trim();
 
-  const badge = document.createElement('div');
-  badge.className = 'family-badge';
-  badge.textContent = 'NEW';
-  badge.setAttribute('aria-hidden', 'true');
+// Remove "New" badge by commenting or skipping the badge creation
+// const badge = document.createElement('div');
+// badge.className = 'family-badge';
+// badge.textContent = 'NEW';
+// badge.setAttribute('aria-hidden', 'true');
 
-  card.appendChild(badge);
+// card.appendChild(badge);
   card.appendChild(familyName);
   card.appendChild(familyExample);
 
