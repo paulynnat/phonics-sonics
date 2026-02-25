@@ -3,34 +3,74 @@ name: Build Phonics Sonics App
 on:
   push:
     branches:
-      - master   # changed from main to master
+      - master
 
 jobs:
-  build:
+  # --------------------
+  # Web Build Job
+  # --------------------
+  web-build:
     runs-on: ubuntu-latest
-
     steps:
-      # Checkout your repo
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # Set up Node.js
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'   # or the version you use locally
+          node-version: '20'
 
-      # Install dependencies
       - name: Install dependencies
         run: npm install
 
-      # Build web assets
       - name: Build web app
         run: npm run build
 
-      # Upload build output as artifact (optional, for debugging)
-      - name: Upload build artifacts
+      - name: Sync Capacitor
+        run: npx cap copy
+
+      - name: Upload web build artifacts
         uses: actions/upload-artifact@v4
         with:
           name: web-build
           path: www
+
+  # --------------------
+  # Android Build Job
+  # --------------------
+  android-build:
+    runs-on: ubuntu-latest
+    needs: web-build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Appflow CLI
+        run: npm install -g @ionic-enterprise/appflow
+
+      - name: Build Android Release
+        run: |
+          ionic-appflow build android \
+            --token=${{ secrets.APPFLOW_TOKEN }} \
+            --build-type=release \
+            --signing=production
+
+  # --------------------
+  # iOS Build Job
+  # --------------------
+  ios-build:
+    runs-on: macos-latest
+    needs: web-build
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Appflow CLI
+        run: npm install -g @ionic-enterprise/appflow
+
+      - name: Build iOS Release
+        run: |
+          ionic-appflow build ios \
+            --token=${{ secrets.APPFLOW_TOKEN }} \
+            --build-type=release \
+            --signing=production
