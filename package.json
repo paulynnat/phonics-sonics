@@ -1,0 +1,26 @@
+{
+  "name": "phonics-sonics",
+  "version": "1.0.0",
+  "description": "An open-source phonics learning app for early readers. This repository contains a small static site intended to be served via GitHub Pages.",
+  "main": "app.js",
+  "scripts": {
+    "start": "ionic serve",
+    "build": "ionic build",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulynnat/phonics-sonics.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/paulynnat/phonics-sonics/issues"
+  },
+  "homepage": "https://github.com/paulynnat/phonics-sonics#readme",
+  "devDependencies": {
+    "vite": "7.3.1"
+  }
+}
