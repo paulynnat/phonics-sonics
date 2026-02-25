@@ -3,7 +3,7 @@ name: Build Phonics Sonics App
 on:
   push:
     branches:
-      - main   # or whichever branch you want Appflow to build from
+      - master   # changed from main to master
 
 jobs:
   build:
