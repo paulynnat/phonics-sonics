@@ -1,0 +1,36 @@
+name: Build Phonics Sonics App
+
+on:
+  push:
+    branches:
+      - main   # or whichever branch you want Appflow to build from
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout your repo
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Set up Node.js
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'   # or the version you use locally
+
+      # Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Build web assets
+      - name: Build web app
+        run: npm run build
+
+      # Upload build output as artifact (optional, for debugging)
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-build
+          path: www
